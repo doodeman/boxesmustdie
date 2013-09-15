@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.utils.BufferUtils;
 
@@ -21,13 +22,17 @@ public class Boxesmustdie implements ApplicationListener {
 	}
 	
     // Vertex buffer.
-    private FloatBuffer vertexBuffer = null;
+    public FloatBuffer vertexBuffer = null;
     
-    private Random random; 
+    public Random random; 
 
-    private List<Box> shapes; 
+    public List<Box> shapes; 
     
-    private Player player; 
+    public List<Box> destroyed;
+    
+    public Player player; 
+    
+    public boolean spacebarheld;
     
     int collisioncount; 
     
@@ -36,14 +41,15 @@ public class Boxesmustdie implements ApplicationListener {
         System.out.println("Created!");
         random = new Random(); 
         shapes = new ArrayList<Box>(); 
+        destroyed = new ArrayList<Box>(); 
         
-        player = new Player(10, 10, 20, shapes);
+        player = new Player(10, 10, 20, shapes, this);
         shapes.add(player);
         
         
         this.vertexBuffer = BufferUtils.newFloatBuffer(8);
         
-        float[] box = new float[] {0,0, 0,20,  20,0,  20,20};
+        float[] box = new float[] {0,0, 0,1,  1,0,  1,1};
         this.vertexBuffer.put(box);
         this.vertexBuffer.rewind();
         Gdx.gl11.glVertexPointer(2, GL11.GL_FLOAT, 0, this.vertexBuffer);
@@ -84,7 +90,7 @@ public class Boxesmustdie implements ApplicationListener {
 		if (rand == 1)
 		{
     		float startpos = random.nextInt(600) + 1;
-    		shapes.add(new EnemyBox(800, startpos, 10, shapes)); 
+    		shapes.add(new EnemyBox(800, startpos, 20, this)); 
 		}
     	
     	for (Box s: shapes)
@@ -92,15 +98,23 @@ public class Boxesmustdie implements ApplicationListener {
     		s.update(); 
     	}
     	
-    	for (Box s: shapes)
+    	for (Box b : destroyed)
     	{
-    		if (player.hasCollided(s))
-    		{
-    			collisioncount += 1;
-    			System.out.println(collisioncount);
-    			player.dead = true; 
-    		}
+    		shapes.remove(b);
     	}
+    	
+        if(Gdx.input.isKeyPressed(Keys.SPACE))
+        {
+        	if (!spacebarheld)
+        	{
+            	spawnProjectile(); 
+        	}
+        	spacebarheld = true; 
+        }
+        else
+        {
+        	spacebarheld = false; 
+        }
     }
     
     
@@ -130,6 +144,15 @@ public class Boxesmustdie implements ApplicationListener {
     @Override
     public void resume() {
         // TODO Auto-generated method stub
+    }
+    
+    public void spawnProjectile()
+    {
+    	if (!player.dead)
+    	{
+    		Projectile projectile = new Projectile(player.xpos + (player.size/2), player.ypos + (player.size/2), 4, this);
+    		shapes.add(projectile);
+    	}
     }
     
 }

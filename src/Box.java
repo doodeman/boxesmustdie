@@ -8,13 +8,13 @@ import com.badlogic.gdx.Gdx;
 
 public abstract class Box
 {
-	public List<Box> otherShapes; 
+	public Boxesmustdie application; 
 	//xpos and ypos are the bottom left corner of the box
 	public float xpos, ypos, size; 
 	
-	public Box(float xpos, float ypos, float size, List<Box> otherShapes)
+	public Box(float xpos, float ypos, float size, Boxesmustdie application)
 	{
-		this.otherShapes = otherShapes;
+		this.application = application;
 		this.xpos = xpos; 
 		this.ypos = ypos; 
 		this.size = size; 
@@ -39,6 +39,7 @@ public abstract class Box
         
         Gdx.gl11.glPushMatrix();
         Gdx.gl11.glTranslatef(xpos, ypos, 0);
+        Gdx.gl11.glScalef(size,size,0);
         Gdx.gl11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, 4);
         Gdx.gl11.glPopMatrix();
 	}
