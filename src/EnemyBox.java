@@ -7,15 +7,19 @@ import com.badlogic.gdx.Gdx;
 
 public class EnemyBox extends Box
 {
-	public EnemyBox(float xpos, float ypos, float size, Boxesmustdie application)
+	public EnemyBox(float xpos, float ypos, float size, Boxesmustdie application, int hitpoints)
 	{
-		super(xpos, ypos, size, application);
+		super(xpos, ypos, size, application, hitpoints, true);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void update() 
 	{
+		if (this.hitpoints == 0)
+		{
+			application.destroyed.add(this);
+		}
 		this.xpos -= 2;
 	}
 	

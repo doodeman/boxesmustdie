@@ -30,17 +30,23 @@ public class Boxesmustdie implements ApplicationListener {
     
     public List<Box> destroyed;
     
+    public List<Box> toInsert;
+    
     public Player player; 
     
-    public boolean spacebarheld;
+    public boolean spacebarheld, bossfight;
     
-    int collisioncount; 
+    int collisioncount, framecount; 
+   
     
     @Override
     public void create() {
         System.out.println("Created!");
         random = new Random(); 
         shapes = new ArrayList<Box>(); 
+        toInsert = new ArrayList<Box>();
+        bossfight = false; 
+        framecount = 0;
         destroyed = new ArrayList<Box>(); 
         
         player = new Player(10, 10, 20, shapes, this);
@@ -86,11 +92,18 @@ public class Boxesmustdie implements ApplicationListener {
     
     private void update()
     {
+    	framecount += 1;
+    	if (framecount == 100)
+    	{
+    		bossfight = true; 
+    		float startpos = random.nextInt(600) + 1;
+    		shapes.add(new Overlord(800, startpos, 40, this, 2));
+    	}
     	int rand = random.nextInt(3) + 1; 
-		if (rand == 1)
+		if (rand == 1 && !bossfight)
 		{
     		float startpos = random.nextInt(600) + 1;
-    		shapes.add(new EnemyBox(800, startpos, 20, this)); 
+    		shapes.add(new EnemyBox(800, startpos, 20, this, 2)); 
 		}
     	
     	for (Box s: shapes)
@@ -98,23 +111,17 @@ public class Boxesmustdie implements ApplicationListener {
     		s.update(); 
     	}
     	
+    	for (Box b : toInsert)
+    	{
+    		shapes.add(b);
+    	}
+    	toInsert.clear();
+    	
     	for (Box b : destroyed)
     	{
     		shapes.remove(b);
     	}
     	
-        if(Gdx.input.isKeyPressed(Keys.SPACE))
-        {
-        	if (!spacebarheld)
-        	{
-            	spawnProjectile(); 
-        	}
-        	spacebarheld = true; 
-        }
-        else
-        {
-        	spacebarheld = false; 
-        }
     }
     
     
@@ -146,14 +153,7 @@ public class Boxesmustdie implements ApplicationListener {
         // TODO Auto-generated method stub
     }
     
-    public void spawnProjectile()
-    {
-    	if (!player.dead)
-    	{
-    		Projectile projectile = new Projectile(player.xpos + (player.size/2), player.ypos + (player.size/2), 4, this);
-    		shapes.add(projectile);
-    	}
-    }
+    
     
 }
 

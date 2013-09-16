@@ -14,7 +14,7 @@ public class Player extends Box
 	
 	public Player(float xpos, float ypos, float size, List<Box> shapes, Boxesmustdie application) 
 	{
-		super(xpos, ypos, size, application);
+		super(xpos, ypos, size, application, 1, false);
 		this.application = application;
 		dead = false; 
 		// TODO Auto-generated constructor stub
@@ -59,5 +59,28 @@ public class Player extends Box
     			application.destroyed.add(this);
     		}
     	}
+        
+        if(Gdx.input.isKeyPressed(Keys.SPACE))
+        {
+        	if (!application.spacebarheld)
+        	{
+            	spawnProjectile(); 
+        	}
+        	application.spacebarheld = true; 
+        }
+        else
+        {
+        	application.spacebarheld = false; 
+        }
+        
 	}
+
+	public void spawnProjectile()
+    {
+    	if (!this.dead)
+    	{
+    		Projectile projectile = new Projectile(this.xpos + (this.size/2), this.ypos + (this.size/2), 4, application);
+    		application.toInsert.add(projectile);
+    	}
+    }
 }

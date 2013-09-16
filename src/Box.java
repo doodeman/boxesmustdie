@@ -1,4 +1,3 @@
-import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
@@ -11,13 +10,17 @@ public abstract class Box
 	public Boxesmustdie application; 
 	//xpos and ypos are the bottom left corner of the box
 	public float xpos, ypos, size; 
+	public int hitpoints;
+	public boolean isEnemy;
 	
-	public Box(float xpos, float ypos, float size, Boxesmustdie application)
+	public Box(float xpos, float ypos, float size, Boxesmustdie application, int hitpoints, boolean isEnemy)
 	{
 		this.application = application;
 		this.xpos = xpos; 
 		this.ypos = ypos; 
 		this.size = size; 
+		this.hitpoints = hitpoints;
+		this.isEnemy = isEnemy;
 	}
 	
 	public Corners getCorners()

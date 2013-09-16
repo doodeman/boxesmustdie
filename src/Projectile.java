@@ -11,7 +11,7 @@ public class Projectile extends Box
 
 	public Projectile(float xpos, float ypos, float size, Boxesmustdie application) 
 	{
-		super(xpos, ypos, size, application);
+		super(xpos, ypos, size, application, 1, false);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -23,15 +23,18 @@ public class Projectile extends Box
 		{
 			if (this.hasCollided(b))
 			{
-				if (b instanceof EnemyBox)
+				if (b.isEnemy)
 				{
-					application.destroyed.add(b);
+					b.hitpoints -= 1; 
 					application.destroyed.add(this);
 					break;
 				}
 			}
 		}
+		
+		
 	}
+	
 	
 	@Override
 	public void display()
