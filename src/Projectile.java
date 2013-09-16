@@ -9,24 +9,37 @@ import com.badlogic.gdx.Gdx;
 public class Projectile extends Box
 {
 
-	public Projectile(float xpos, float ypos, float size, Boxesmustdie application) 
+	public Projectile(float xpos, float ypos, float size, Boxesmustdie application, boolean isEnemy) 
 	{
-		super(xpos, ypos, size, application, 1, false);
+		super(xpos, ypos, size, application, 1, isEnemy);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void update() 
 	{
-		this.xpos += 10;
+		if (this.isEnemy)
+		{
+			this.xpos -= 10;
+		}
+		else
+		{
+			this.xpos += 10;
+		}
 		for (Box b : application.shapes)
 		{
 			if (this.hasCollided(b))
 			{
-				if (b.isEnemy)
+				if (!this.isEnemy && b.isEnemy)
 				{
 					b.hitpoints -= 1; 
 					application.destroyed.add(this);
+					break;
+				}
+				if (this.isEnemy && !b.isEnemy)
+				{
+					b.hitpoints -= 1; 
+					application.destroyed.add(this); 
 					break;
 				}
 			}

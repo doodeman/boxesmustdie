@@ -79,7 +79,7 @@ public class Player extends Box
     {
     	if (!this.dead)
     	{
-    		Projectile projectile = new Projectile(this.xpos + (this.size/2), this.ypos + (this.size/2), 4, application);
+    		Projectile projectile = new Projectile(this.xpos + (this.size/2), this.ypos + (this.size/2), 4, application, false);
     		application.toInsert.add(projectile);
     	}
     }
