@@ -94,7 +94,7 @@ public class Boxesmustdie implements ApplicationListener {
     private void update()
     {
     	framecount += 1;
-    	if (framecount%2000 == 0)
+    	if (framecount%2000 == 0 && !bossfight)
     	{
     		bossfight = true; 
     		float startpos = random.nextInt(600) + 1;
@@ -157,7 +157,7 @@ public class Boxesmustdie implements ApplicationListener {
     public void cleanup()
     {
     	shapes = new ArrayList<Box>();
-    	shapes.add(player);
+    	shapes.add(player); 
     }
 }
 

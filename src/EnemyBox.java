@@ -16,7 +16,7 @@ public class EnemyBox extends Box
 	@Override
 	public void update() 
 	{
-		if (this.hitpoints == 0)
+		if (this.hitpoints == 0 || this.xpos < -(this.size))
 		{
 			application.destroyed.add(this);
 		}
