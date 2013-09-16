@@ -44,6 +44,9 @@ public class Overlord extends Box
 		if (this.hitpoints == 0)
 		{
 			application.destroyed.add(this);
+			application.level += 1; 
+			application.bossfight = false; 
+			application.framecount = 0;
 		}
 		
 		if (this.xpos > 600)
@@ -58,11 +61,11 @@ public class Overlord extends Box
 		{
 			if (application.player.ypos > this.ypos)
 			{
-				this.ypos += 1;
+				this.ypos += application.level;
 			}
 			if (application.player.ypos < this.ypos)
 			{
-				this.ypos -= 1;
+				this.ypos -= application.level;
 			}
 		}
 	}

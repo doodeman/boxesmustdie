@@ -36,7 +36,7 @@ public class Boxesmustdie implements ApplicationListener {
     
     public boolean spacebarheld, bossfight;
     
-    int collisioncount, framecount; 
+    int collisioncount, framecount, level; 
    
     
     @Override
@@ -47,6 +47,7 @@ public class Boxesmustdie implements ApplicationListener {
         toInsert = new ArrayList<Box>();
         bossfight = false; 
         framecount = 0;
+        level = 1; 
         destroyed = new ArrayList<Box>(); 
         
         player = new Player(10, 10, 20, shapes, this);
@@ -93,11 +94,11 @@ public class Boxesmustdie implements ApplicationListener {
     private void update()
     {
     	framecount += 1;
-    	if (framecount == 100)
+    	if (framecount%2000 == 0)
     	{
     		bossfight = true; 
     		float startpos = random.nextInt(600) + 1;
-    		shapes.add(new Overlord(800, startpos, 40, this, 2));
+    		shapes.add(new Overlord(800, startpos, 40, this, 20));
     	}
     	int rand = random.nextInt(3) + 1; 
 		if (rand == 1 && !bossfight)
@@ -153,7 +154,10 @@ public class Boxesmustdie implements ApplicationListener {
         // TODO Auto-generated method stub
     }
     
-    
-    
+    public void cleanup()
+    {
+    	shapes = new ArrayList<Box>();
+    	shapes.add(player);
+    }
 }
 

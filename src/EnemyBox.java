@@ -20,7 +20,7 @@ public class EnemyBox extends Box
 		{
 			application.destroyed.add(this);
 		}
-		this.xpos -= 2;
+		this.xpos -= application.level;
 	}
 	
 	@Override
